@@ -561,8 +561,8 @@ textarea {
 .home-cert-scrap {
   position: absolute;
   right: 2%;
-  /* Mid-lower right — above the action row, clear of CTA */
-  bottom: 22%;
+  /* Mobile: sit above narrative copy so the scrap does not cover lines */
+  bottom: 34%;
   z-index: 20;
   width: 5.5rem;
   overflow: visible;
@@ -576,6 +576,8 @@ textarea {
 @media (min-width: 640px) {
   .home-cert-scrap {
     width: 6rem;
+    /* Mid-lower right — above the action row, clear of CTA */
+    bottom: 22%;
   }
 }
 
