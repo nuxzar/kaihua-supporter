@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 56" fill="none">
+  <rect x="2" y="4" width="96" height="48" rx="4" fill="#c8dfb0" stroke="#2a2a2a" stroke-width="2.5"/>
+  <rect x="8" y="10" width="84" height="36" rx="2" fill="none" stroke="#2a2a2a" stroke-width="1.2" stroke-dasharray="3 2" opacity="0.6"/>
+  <circle cx="50" cy="28" r="12" fill="#e8d58a" stroke="#2a2a2a" stroke-width="2"/>
+  <text x="50" y="34" text-anchor="middle" font-family="Georgia, serif" font-size="18" font-weight="700" fill="#2a2a2a">$</text>
+  <text x="18" y="22" font-family="Comic Sans MS, cursive" font-size="8" fill="#2a2a2a" opacity="0.7">KH</text>
+  <text x="72" y="42" font-family="Comic Sans MS, cursive" font-size="8" fill="#2a2a2a" opacity="0.7">100</text>
+</svg>

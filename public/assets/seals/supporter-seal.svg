@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320">
+  <circle cx="160" cy="160" r="150" fill="none" stroke="#8e1830" stroke-width="3.5"/>
+  <circle cx="160" cy="160" r="140" fill="none" stroke="#8e1830" stroke-width="1.6"/>
+  <text x="63.01" y="104.00" transform="rotate(-60.00 63.01 104.00)" text-anchor="middle" dominant-baseline="middle" fill="#8e1830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="700">B</text>
+  <text x="78.53" y="83.14" transform="rotate(-46.67 78.53 83.14)" text-anchor="middle" dominant-baseline="middle" fill="#8e1830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="700">L</text>
+  <text x="98.45" y="66.43" transform="rotate(-33.33 98.45 66.43)" text-anchor="middle" dominant-baseline="middle" fill="#8e1830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="700">O</text>
+  <text x="121.69" y="54.75" transform="rotate(-20.00 121.69 54.75)" text-anchor="middle" dominant-baseline="middle" fill="#8e1830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="700">O</text>
+  <text x="147.00" y="48.76" transform="rotate(-6.67 147.00 48.76)" text-anchor="middle" dominant-baseline="middle" fill="#8e1830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="700">M</text>
+  <text x="198.31" y="54.75" transform="rotate(20.00 198.31 54.75)" text-anchor="middle" dominant-baseline="middle" fill="#8e1830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="700">C</text>
+  <text x="221.55" y="66.43" transform="rotate(33.33 221.55 66.43)" text-anchor="middle" dominant-baseline="middle" fill="#8e1830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="700">L</text>
+  <text x="241.47" y="83.14" transform="rotate(46.67 241.47 83.14)" text-anchor="middle" dominant-baseline="middle" fill="#8e1830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="700">U</text>
+  <text x="256.99" y="104.00" transform="rotate(60.00 256.99 104.00)" text-anchor="middle" dominant-baseline="middle" fill="#8e1830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="700">B</text>
+  <text x="160" y="142" fill="#8e1830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="2.4" text-anchor="middle">VERIFIED</text>
+  <text x="160" y="164" fill="#8e1830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="1.6" text-anchor="middle">SUPPORTER</text>
+  <g transform="translate(160, 196)" fill="none" stroke="#8e1830" stroke-width="1.5">
+    <circle cx="0" cy="-9" r="5.2"/>
+    <circle cx="8.6" cy="-2.8" r="5.2"/>
+    <circle cx="5.3" cy="7.4" r="5.2"/>
+    <circle cx="-5.3" cy="7.4" r="5.2"/>
+    <circle cx="-8.6" cy="-2.8" r="5.2"/>
+    <circle cx="0" cy="0" r="2.8" fill="#8e1830" stroke="none"/>
+  </g>
+  <text x="245.80" y="231.99" transform="rotate(310.00 245.80 231.99)" text-anchor="middle" dominant-baseline="middle" fill="#8e1830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="700">2</text>
+  <text x="192.12" y="267.29" transform="rotate(343.33 192.12 267.29)" text-anchor="middle" dominant-baseline="middle" fill="#8e1830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="700">0</text>
+  <text x="127.88" y="267.29" transform="rotate(376.67 127.88 267.29)" text-anchor="middle" dominant-baseline="middle" fill="#8e1830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="700">2</text>
+  <text x="74.20" y="231.99" transform="rotate(410.00 74.20 231.99)" text-anchor="middle" dominant-baseline="middle" fill="#8e1830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="700">6</text>
+</svg>

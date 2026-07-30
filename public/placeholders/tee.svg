@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <!-- Soft shadow -->
+  <path d="M78 72 L42 118 L78 138 L92 118 L92 318 L228 318 L228 118 L242 138 L278 118 L242 72 L200 92 L160 78 L120 92 Z"
+        fill="#000" opacity="0.08" transform="translate(4 6)"/>
+  <!-- Body -->
+  <path d="M78 66 L40 114 L78 134 L94 112 L94 312 L226 312 L226 112 L242 134 L280 114 L242 66 L198 88 L160 72 L122 88 Z"
+        fill="#f2f0e8" stroke="#2a2a2a" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- Collar -->
+  <path d="M122 88 Q160 118 198 88" stroke="#2a2a2a" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M138 92 Q160 108 182 92" stroke="#2a2a2a" stroke-width="2" fill="none" opacity="0.5"/>
+  <!-- Print block -->
+  <rect x="108" y="148" width="104" height="118" rx="6" fill="#1f6b45" stroke="#2a2a2a" stroke-width="2.5"/>
+  <!-- Fake Franklin-ish portrait oval -->
+  <ellipse cx="160" cy="188" rx="28" ry="32" fill="#d4c4a0" stroke="#2a2a2a" stroke-width="2"/>
+  <circle cx="150" cy="182" r="3" fill="#2a2a2a"/>
+  <circle cx="170" cy="182" r="3" fill="#2a2a2a"/>
+  <path d="M148 200 Q160 210 172 200" stroke="#2a2a2a" stroke-width="2" fill="none"/>
+  <!-- Dollar mark -->
+  <text x="160" y="248" text-anchor="middle" font-family="Georgia, serif" font-size="36" font-weight="700" fill="#e8d58a" stroke="#2a2a2a" stroke-width="1.2">$</text>
+  <!-- Handwritten label -->
+  <text x="160" y="290" text-anchor="middle" font-family="Comic Sans MS, cursive" font-size="11" fill="#2a2a2a" opacity="0.75">BLOCKJAMIN</text>
+</svg>

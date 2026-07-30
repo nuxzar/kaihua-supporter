@@ -1,0 +1,415 @@
+/**
+ * Kaihua Design System — single source of visual tokens (--ds-*).
+ * Scenes / components must not invent colors, spacing, or fonts elsewhere.
+ * Surfaces: PaperCard · HandButton · TextButton · PaperInput · PaperWindow.
+ */
+
+:root {
+  /* —— Core palette —— */
+  --ds-paper: #f5ebd3;
+  --ds-ink: #1d1d1d;
+  --ds-accent: #8e1830;
+
+  /* Derived (no random hex in scenes) */
+  --ds-paper-deep: color-mix(in srgb, var(--ds-paper) 82%, var(--ds-ink));
+  --ds-paper-soft: color-mix(in srgb, var(--ds-paper) 92%, #ffffff);
+  --ds-ink-soft: color-mix(in srgb, var(--ds-ink) 55%, #8a6b4a);
+  --ds-ink-muted: color-mix(in srgb, var(--ds-ink) 40%, transparent);
+  --ds-enter: #9fb589;
+  --ds-enter-hover: #8fa87a;
+  --ds-win-blue: #3a6ea5;
+  --ds-progress: #e8d07a;
+  --ds-btn-pink: #f2b6c1;
+  --ds-btn-pink-hover: #e9a0ae;
+  --ds-shell: #ffffff;
+  --ds-desk: #8ec8e8;
+  --ds-desk-deep: #7eb8d8;
+
+  /* —— Geometry —— */
+  --ds-border-width: 2px;
+  --ds-border: var(--ds-border-width) solid var(--ds-ink);
+  --ds-shadow: 3px 3px 0 0 rgba(29, 29, 29, 0.22);
+  --ds-shadow-press: 1px 1px 0 0 rgba(29, 29, 29, 0.18);
+  --ds-shadow-none: none;
+  --ds-radius-none: 0;
+
+  /* —— Spacing —— */
+  --ds-pad-xs: 0.5rem;
+  --ds-pad-sm: 0.75rem;
+  --ds-pad: 1rem;
+  --ds-pad-lg: 1.25rem;
+  --ds-gap: 0.75rem;
+  --ds-gap-sm: 0.5rem;
+
+  /* —— Type —— */
+  --ds-font-emoji: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji",
+    "Twemoji Mozilla", emoji;
+  --ds-font-yahei: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Hiragino Sans GB",
+    "Noto Sans SC", "Segoe UI", Tahoma, sans-serif;
+  --ds-font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas,
+    monospace;
+  /* UI type — YaHei (+ CJK system fallbacks). Local VT323/StarLovePencil faces stay in /fonts unused. */
+  --ds-font-en: var(--ds-font-yahei);
+  --ds-font-cn: var(--ds-font-yahei), var(--ds-font-emoji);
+  --ds-font-pixel: var(--ds-font-yahei), var(--ds-font-emoji);
+  --ds-font-pixel-lg: var(--ds-font-yahei), var(--ds-font-emoji);
+  --ds-font-hand: var(--ds-font-cn);
+  --ds-font-cn-pixel: var(--ds-font-cn);
+  /* Poster English / numbers — IBM Plex Mono (poster-scoped) */
+  --ds-font-poster-mono: var(--ds-font-mono), var(--ds-font-emoji);
+
+  /* —— Workshop layout —— */
+  --ds-workshop-max: 900px;
+  --ds-workshop-max-wide: 1100px;
+  --ds-workshop-pad-x: 0.75rem;
+  --ds-workshop-pad-y: 0.75rem;
+  --ds-workshop-gap: 0.75rem;
+  --ds-scene-pad-y: var(--ds-pad-sm);
+  --ds-scene-measure: 26rem;
+}
+
+/* —— Semantic text / border —— */
+.text-ink {
+  color: var(--ds-ink);
+}
+
+.text-ink-soft {
+  color: var(--ds-ink-soft);
+}
+
+.text-accent {
+  color: var(--ds-accent);
+}
+
+.text-muted {
+  color: var(--ds-ink-muted);
+}
+
+.border-ink {
+  border-color: var(--ds-ink);
+}
+
+/* —— Type utilities —— */
+.font-pixel,
+.font-pixel-lg,
+.font-mark,
+.font-chrome {
+  font-family: var(--ds-font-pixel);
+}
+
+.font-hand,
+.font-body {
+  font-family: var(--ds-font-hand);
+}
+
+.font-cn-pixel,
+.font-cn,
+.font-display {
+  font-family: var(--ds-font-cn-pixel);
+}
+
+.font-poster-mono {
+  font-family: var(--ds-font-poster-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* —— Spacing utilities (scenes: use these, not random px) —— */
+.ds-pad {
+  padding: var(--ds-pad);
+}
+
+.ds-pad-xs {
+  padding: var(--ds-pad-xs);
+}
+
+.ds-pad-sm {
+  padding: var(--ds-pad-sm);
+}
+
+.ds-pad-lg {
+  padding: var(--ds-pad-lg);
+}
+
+.ds-pad-x {
+  padding-inline: var(--ds-pad);
+}
+
+.ds-pad-y {
+  padding-block: var(--ds-pad);
+}
+
+.ds-gap {
+  gap: var(--ds-gap);
+}
+
+.ds-gap-sm {
+  gap: var(--ds-gap-sm);
+}
+
+/* —— PaperWindow —— */
+.ds-window {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 0;
+  flex-direction: column;
+  border: var(--ds-border);
+  box-shadow: var(--ds-shadow);
+  background: var(--ds-paper);
+  filter: url(#sketch-rough);
+  transform: rotate(0.25deg);
+}
+
+.ds-window--flat {
+  transform: none;
+}
+
+.ds-window--cream,
+.ds-window--deep {
+  background: var(--ds-paper);
+}
+
+.ds-window__grain {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  filter: url(#pencil-grain);
+}
+
+.ds-window__bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-gap);
+  border-bottom: var(--ds-border);
+  padding: var(--ds-pad-xs) var(--ds-pad-sm);
+  background: var(--ds-win-blue);
+  color: #fff;
+}
+
+.ds-window__bar--wine {
+  background: var(--ds-accent);
+}
+
+.ds-window__body {
+  position: relative;
+  min-height: 0;
+  flex: 1;
+  padding: var(--ds-pad);
+}
+
+@media (min-width: 640px) {
+  .ds-window__body {
+    padding: var(--ds-pad-lg);
+  }
+}
+
+/* —— PaperCard —— */
+.ds-card {
+  position: relative;
+  overflow: hidden;
+  border: var(--ds-border);
+  box-shadow: var(--ds-shadow);
+  background: var(--ds-paper);
+  filter: url(#sketch-rough);
+}
+
+.ds-card--paper,
+.ds-card--board,
+.ds-card--deep,
+.ds-card--cream {
+  background: var(--ds-paper);
+}
+
+.ds-card--board {
+  background: var(--ds-paper-deep);
+}
+
+.ds-card.is-fill {
+  position: absolute;
+  inset: 0;
+}
+
+.ds-card--plain {
+  filter: none;
+}
+
+.ds-card__grain {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.2;
+  filter: url(#pencil-grain);
+}
+
+/* —— HandButton —— */
+.ds-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-gap-sm);
+  padding: var(--ds-pad-sm) var(--ds-pad);
+  border: var(--ds-border);
+  box-shadow: var(--ds-shadow);
+  color: var(--ds-ink);
+  font-family: var(--ds-font-pixel);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  transform: rotate(-0.4deg);
+  filter: url(#sketch-rough);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+  cursor: pointer;
+  background: var(--ds-enter);
+}
+
+@media (min-width: 640px) {
+  .ds-btn {
+    font-size: 0.75rem;
+  }
+}
+
+.ds-btn:hover:not(:disabled) {
+  transform: translate(1px, 1px) rotate(-0.4deg);
+  box-shadow: var(--ds-shadow-press);
+}
+
+.ds-btn:active:not(:disabled) {
+  transform: translate(2px, 2px) rotate(-0.4deg);
+  box-shadow: var(--ds-shadow-none);
+}
+
+.ds-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.ds-btn--primary {
+  background: var(--ds-enter);
+}
+
+.ds-btn--primary:hover:not(:disabled) {
+  background: var(--ds-enter-hover);
+}
+
+.ds-btn--secondary {
+  background: var(--ds-paper);
+}
+
+.ds-btn--secondary:hover:not(:disabled) {
+  background: var(--ds-paper-deep);
+}
+
+.ds-btn--ghost {
+  background: var(--ds-paper-soft);
+}
+
+.ds-btn--ghost:hover:not(:disabled) {
+  background: var(--ds-paper);
+}
+
+/* —— TextButton (back / cancel) —— */
+.ds-text-btn {
+  font-family: var(--ds-font-pixel);
+  font-size: 0.6875rem;
+  color: var(--ds-ink-muted);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.ds-text-btn:hover:not(:disabled) {
+  color: var(--ds-ink);
+}
+
+.ds-text-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+@media (min-width: 640px) {
+  .ds-text-btn {
+    font-size: 0.75rem;
+  }
+}
+
+/* —— PaperInput —— */
+.ds-input {
+  width: 100%;
+  padding: var(--ds-pad-sm) var(--ds-pad);
+  border: var(--ds-border);
+  box-shadow: var(--ds-shadow-press);
+  background: var(--ds-paper-soft);
+  color: var(--ds-ink);
+  font-family: var(--ds-font-hand);
+  font-size: 1rem;
+  outline: none;
+  filter: url(#sketch-rough);
+}
+
+.ds-input::placeholder {
+  color: var(--ds-ink-muted);
+}
+
+.ds-label {
+  font-family: var(--ds-font-pixel);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  color: var(--ds-ink-soft);
+}
+
+@media (min-width: 640px) {
+  .ds-label {
+    font-size: 0.6875rem;
+  }
+}
+
+.ds-actionbar {
+  flex-shrink: 0;
+  padding-top: var(--ds-pad-sm);
+  padding-bottom: max(var(--ds-pad-sm), env(safe-area-inset-bottom));
+  background: transparent;
+  border-top: none;
+}
+
+/* Paper plate + content share one grid cell — sketch filter stays off HandButton ancestors. */
+.ds-actionbar__frame {
+  display: grid;
+  grid-template: 1fr / 1fr;
+}
+
+.ds-actionbar__stroke,
+.ds-actionbar__body {
+  grid-area: 1 / 1;
+}
+
+.ds-actionbar__stroke {
+  pointer-events: none;
+  border: var(--ds-border);
+  box-shadow: var(--ds-shadow);
+  background: var(--ds-paper);
+  filter: url(#sketch-rough);
+}
+
+.ds-actionbar__body {
+  position: relative;
+  z-index: 1;
+  padding: 0.75rem;
+}
+
+.stamp-ring {
+  border: var(--ds-border);
+  color: var(--ds-accent);
+  border-radius: 50%;
+  mix-blend-mode: multiply;
+}

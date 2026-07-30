@@ -1,0 +1,803 @@
+@import "tailwindcss";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource/ibm-plex-mono/700.css";
+@import "../styles/design-system.css";
+
+/**
+ * App shell + workspace layout only.
+ * Tokens / surfaces / type → design-system.css (--ds-*).
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--ds-shell);
+}
+
+html,
+body {
+  height: 100%;
+  height: 100dvh;
+  min-height: -webkit-fill-available;
+  overflow: hidden;
+  background-color: var(--ds-shell);
+}
+
+body {
+  margin: 0;
+  color: var(--ds-ink);
+  font-family: var(--ds-font-cn);
+  font-weight: 700;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  text-rendering: geometricPrecision;
+  overscroll-behavior: none;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--ds-shell);
+  pointer-events: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: var(--ds-progress);
+  color: var(--ds-ink);
+}
+
+/* —— Unified WorkSpace —— */
+.app-viewport {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: var(--ds-shell);
+}
+
+.workspace {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--ds-shell);
+}
+
+.workspace__grid {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64' fill='none'%3E%3Cpath d='M1.2 3.1c10.4-1.4 21.2 1.6 31.5-.4 8.8-1.7 17.6 1.2 26.6-.5 1.6-.3 3.4.9 4.5.4' stroke='%23ececec' stroke-width='1.35' stroke-linecap='round'/%3E%3Cpath d='M2.8 1.5c-1.2 11.2 1.8 22.4-.5 33.4-1.6 7.6 1.4 15.8-.3 23.7-.3 1.7 1 3.5.5 4.8' stroke='%23ececec' stroke-width='1.35' stroke-linecap='round'/%3E%3Cpath d='M0.8 33.2c12.2.9 23.4-1.5 35.1.6 8.5 1.5 16.2-1.1 24.9.4' stroke='%23f2f2f2' stroke-width='1.1' stroke-linecap='round' opacity='.85'/%3E%3Cpath d='M33.4 0.6c.8 12.5-1.6 24.1.5 36.2 1.4 8.1-1.2 15.4.3 24.1' stroke='%23f2f2f2' stroke-width='1.1' stroke-linecap='round' opacity='.85'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 64px 64px;
+}
+
+.workspace__grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.12;
+  filter: url(#pencil-grain);
+}
+
+.workspace__shell {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  max-width: min(100%, var(--ds-workshop-max));
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  margin-inline: auto;
+  overflow: hidden;
+  padding-inline: var(--ds-workshop-pad-x);
+  padding-top: max(var(--ds-workshop-pad-y), env(safe-area-inset-top));
+  transition: max-width 0.65s cubic-bezier(0.22, 1.15, 0.36, 1);
+}
+
+@media (min-width: 640px) {
+  .workspace__shell {
+    --ds-workshop-pad-x: 1rem;
+  }
+}
+
+.workspace__shell--wide {
+  max-width: min(100%, var(--ds-workshop-max-wide));
+}
+
+/* —— SceneContent: one padding / align contract for every scene —— */
+.scene-content {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding-block: var(--ds-scene-pad-y);
+  padding-inline: 0;
+  overflow: hidden;
+}
+
+.scene-content--stretch {
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.scene-content--scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* —— Scene layout: one stage slot size for every scene —— */
+.scene-stack {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  flex-direction: column;
+  gap: var(--ds-gap);
+}
+
+.scene-stack__footer {
+  width: 100%;
+  max-width: var(--ds-scene-measure);
+  flex-shrink: 0;
+  margin-inline: auto;
+}
+
+.scene-stage-slot {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  flex: 1 1 0;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Editor desk: keep the 3:4 preview from collapsing under tool chrome */
+.scene-stack > .scene-stage-slot {
+  flex: 1 1 0;
+  min-height: 11rem;
+}
+
+/* Desktop: preview + tools side by side so the 3:4 stage can grow */
+@media (min-width: 1024px) {
+  .scene-stack:has(> .workshop-tools) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 17.5rem);
+    grid-template-rows: minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .scene-stack:has(> .workshop-tools) > .scene-stage-slot {
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 0;
+  }
+
+  .scene-stack:has(> .workshop-tools) > .workshop-tools {
+    grid-column: 2;
+    grid-row: 1;
+    max-height: none;
+    overflow: visible;
+    align-self: start;
+  }
+}
+
+.scene-panel {
+  width: 100%;
+  height: 100%;
+  max-width: 36rem;
+  margin-inline: auto;
+}
+
+.scene-measure {
+  width: 100%;
+  max-width: var(--ds-scene-measure);
+  margin-inline: auto;
+}
+
+.scene-media {
+  position: relative;
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 3 / 4;
+  margin-inline: auto;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.photo-stage {
+  aspect-ratio: 3 / 4;
+}
+
+.workspace__top {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.workspace__content {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.workspace__content--stretch {
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.workspace__content--stretch > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.workspace__bottom {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.workspace-scene {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.workspace-scene__body {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.workshop-body {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  padding-bottom: var(--ds-pad-xs);
+}
+
+.workshop-tools {
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: min(34vh, 15rem);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 1024px) {
+  .workshop-tools {
+    max-height: none;
+    flex: 0 0 auto;
+    overflow: visible;
+  }
+}
+
+.cert-card {
+  --cert-paper: #f7f5f0;
+  min-height: 0;
+  background: var(--cert-paper);
+}
+
+/* Archive certificate: compressed chrome / ~70% photo / bottom meta */
+.cert-card__zone--top {
+  height: 9%;
+}
+
+.cert-card__zone--photo {
+  height: 70%;
+  overflow: visible;
+  z-index: 2;
+}
+
+.cert-card__zone--bottom {
+  height: 21%;
+  z-index: 1;
+}
+
+.cert-card__mark {
+  max-width: 38%;
+}
+
+.cert-card__border {
+  pointer-events: none;
+  position: absolute;
+  inset: 2.8%;
+  z-index: 3;
+  border: 1px solid var(--ds-ink);
+}
+
+.cert-card__photo-stage {
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+}
+
+.cert-card__photo-frame {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: visible;
+}
+
+/* Seal straddles photo bottom-right corner — half on photo, half on paper */
+.cert-card__seal {
+  transform: translate(42%, 42%) rotate(-15deg);
+}
+
+.cert-card__signature {
+  mix-blend-mode: multiply;
+}
+
+.cert-card--export {
+  filter: none !important;
+  transform: none !important;
+  box-shadow: none;
+}
+
+/* Poster snapshot: EN/meta lines resolve to IBM Plex Mono */
+.cert-card .font-poster-mono {
+  font-family: var(--ds-font-poster-mono);
+}
+
+.poster-tpl--archive {
+  box-shadow: none;
+}
+
+.done-poster {
+  display: flex;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+  max-width: min(100%, 36rem);
+  align-items: center;
+  justify-content: center;
+}
+
+.done-poster__img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  box-shadow: var(--ds-shadow);
+  background: var(--ds-paper);
+}
+
+/* Eject: paper top meets/overlaps slot bottom (no letterbox gap) */
+.issue-paper-rail {
+  max-height: 100%;
+}
+
+.issue-paper-rail__well {
+  /* Pull poster up under the black slot lip so it reads as emerging */
+  margin-top: -0.45rem;
+}
+
+.issue-eject-poster {
+  display: block;
+  height: auto;
+  max-height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: top center;
+  align-self: flex-start;
+  background: transparent;
+}
+
+.sketch-stroke {
+  filter: url(#sketch-rough);
+}
+
+.sketch-shadow {
+  filter: url(#sketch-shadow);
+}
+
+.tee-fabric {
+  mix-blend-mode: normal;
+}
+
+/* —— Home desk props —— */
+.home-desk {
+  margin-inline: auto;
+}
+
+/* Playful sway — Tee + frame rock left / right */
+.home-tee-wiggle {
+  transform-origin: 50% 85%;
+  animation: home-tee-sway 2.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes home-tee-sway {
+  0%,
+  100% {
+    transform: rotate(-3.2deg);
+  }
+  50% {
+    transform: rotate(3.2deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-tee-wiggle {
+    animation: none;
+  }
+}
+
+/* White paper mat under transparent Tee PNG */
+.home-tee-mat {
+  box-sizing: border-box;
+  background: #ffffff;
+  border: var(--ds-border-width) solid var(--ds-ink);
+  box-shadow: var(--ds-shadow-press);
+  padding: 0.65rem 0.75rem 0.85rem;
+}
+
+.home-tape {
+  display: block;
+  height: 0.7rem;
+  opacity: 0.82;
+  mix-blend-mode: multiply;
+  box-shadow: var(--ds-shadow-press);
+}
+
+.home-tape--yellow {
+  background: color-mix(in srgb, var(--ds-progress) 88%, #ffffff);
+}
+
+.home-tape--blue {
+  background: color-mix(in srgb, var(--ds-win-blue) 55%, #ffffff);
+}
+
+.home-tape--pink {
+  background: color-mix(in srgb, var(--ds-btn-pink) 80%, #ffffff);
+}
+
+.home-marker {
+  width: 0.55rem;
+  height: 4.2rem;
+  border: var(--ds-border-width) solid var(--ds-ink);
+  background: linear-gradient(
+    180deg,
+    var(--ds-ink) 0 18%,
+    var(--ds-accent) 18% 28%,
+    #f2c94c 28% 100%
+  );
+  box-shadow: var(--ds-shadow-press);
+}
+
+.home-sticker-cta {
+  transform: rotate(-2.2deg) !important;
+  filter: url(#sketch-rough);
+}
+
+.home-sticker-cta:hover:not(:disabled) {
+  transform: translate(1px, 1px) rotate(-1.2deg) !important;
+}
+
+.home-sticker-cta:active:not(:disabled) {
+  transform: translate(2px, 2px) rotate(-0.6deg) !important;
+}
+
+/*
+  Limited-edition scrap — absolute lives HERE (not Tailwind), because
+  .ds-card { position: relative } overrides utility .absolute and hid the scrap.
+  No SVG sketch filter: small plates get clipped / disappear under displacement.
+*/
+.home-cert-scrap {
+  position: absolute;
+  right: 2%;
+  /* Mid-lower right — above the action row, clear of CTA */
+  bottom: 22%;
+  z-index: 20;
+  width: 5.5rem;
+  overflow: visible;
+  border: var(--ds-border);
+  border-radius: 2px 1px 3px 1px / 1px 3px 1px 2px;
+  box-shadow: var(--ds-shadow);
+  background: var(--ds-paper);
+  rotate: 6deg;
+}
+
+@media (min-width: 640px) {
+  .home-cert-scrap {
+    width: 6rem;
+  }
+}
+
+.home-cert-scrap__banner {
+  padding: 0.15rem 0.25rem;
+  background: var(--ds-accent);
+  color: #fff;
+  text-align: center;
+  font-family: var(--ds-font-pixel);
+  font-size: 8px;
+  line-height: 1.2;
+  border-bottom: var(--ds-border-width) solid var(--ds-ink);
+}
+
+@media (min-width: 640px) {
+  .home-cert-scrap__banner {
+    font-size: 9px;
+  }
+}
+
+.home-cert-scrap__body {
+  position: relative;
+  padding: 0.35rem 0.25rem 0.45rem;
+}
+
+/* Oiiii chip — decorative mark beside CTA (stroke sibling for sketch filter) */
+.home-oiiii-chip {
+  position: relative;
+  display: grid;
+  grid-template: 1fr / 1fr;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  pointer-events: none;
+  rotate: -8deg;
+  z-index: 5;
+}
+
+@media (min-width: 640px) {
+  .home-oiiii-chip {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}
+
+.home-action-row {
+  min-height: 3rem;
+}
+
+.home-oiiii-chip__stroke,
+.home-oiiii-chip__face {
+  grid-area: 1 / 1;
+}
+
+.home-oiiii-chip__stroke {
+  border: var(--ds-border);
+  box-shadow: var(--ds-shadow);
+  background: var(--ds-paper);
+  border-radius: 1px 2px 1px 2px / 2px 1px 2px 1px;
+  filter: url(#sketch-rough);
+}
+
+.home-oiiii-chip__face {
+  position: relative;
+  z-index: 1;
+  display: block;
+  padding: 0.15rem;
+}
+
+.workshop-lab-plate {
+  border-style: dashed;
+}
+
+.safe-pad {
+  padding-top: max(var(--ds-pad-sm), env(safe-area-inset-top));
+  padding-bottom: max(var(--ds-pad-sm), env(safe-area-inset-bottom));
+  padding-left: max(var(--ds-pad-sm), env(safe-area-inset-left));
+  padding-right: max(var(--ds-pad-sm), env(safe-area-inset-right));
+}
+
+/* —— GlobalLoader (first-paint paper gate) —— */
+/* Background matches home WorkSpace: --ds-shell + grid + grain (absolute so exit slide carries them) */
+.global-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  height: 100dvh;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--ds-shell);
+  will-change: transform;
+}
+
+.global-loader__grid {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64' fill='none'%3E%3Cpath d='M1.2 3.1c10.4-1.4 21.2 1.6 31.5-.4 8.8-1.7 17.6 1.2 26.6-.5 1.6-.3 3.4.9 4.5.4' stroke='%23ececec' stroke-width='1.35' stroke-linecap='round'/%3E%3Cpath d='M2.8 1.5c-1.2 11.2 1.8 22.4-.5 33.4-1.6 7.6 1.4 15.8-.3 23.7-.3 1.7 1 3.5.5 4.8' stroke='%23ececec' stroke-width='1.35' stroke-linecap='round'/%3E%3Cpath d='M0.8 33.2c12.2.9 23.4-1.5 35.1.6 8.5 1.5 16.2-1.1 24.9.4' stroke='%23f2f2f2' stroke-width='1.1' stroke-linecap='round' opacity='.85'/%3E%3Cpath d='M33.4 0.6c.8 12.5-1.6 24.1.5 36.2 1.4 8.1-1.2 15.4.3 24.1' stroke='%23f2f2f2' stroke-width='1.1' stroke-linecap='round' opacity='.85'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 64px 64px;
+}
+
+.global-loader__grain {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.12;
+  filter: url(#pencil-grain);
+}
+
+.global-loader__tape {
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+  display: block;
+  height: 0.75rem;
+  opacity: 0.85;
+  mix-blend-mode: multiply;
+  box-shadow: var(--ds-shadow-press);
+}
+
+.global-loader__tape--a {
+  top: max(1.25rem, env(safe-area-inset-top));
+  left: 18%;
+  width: 4.5rem;
+  rotate: -9deg;
+  background: color-mix(in srgb, var(--ds-progress) 88%, #ffffff);
+}
+
+.global-loader__tape--b {
+  top: max(2rem, calc(env(safe-area-inset-top) + 0.75rem));
+  right: 16%;
+  width: 3.6rem;
+  rotate: 12deg;
+  background: color-mix(in srgb, var(--ds-win-blue) 55%, #ffffff);
+}
+
+.global-loader__card {
+  position: relative;
+  z-index: 3;
+  box-sizing: border-box;
+  width: min(100%, 20rem);
+  padding: 1.5rem 1.25rem 1.35rem;
+  border: var(--ds-border);
+  box-shadow: var(--ds-shadow);
+  background: var(--ds-paper-soft);
+  text-align: center;
+  transform-origin: 50% 60%;
+  animation: global-loader-wiggle 2.8s ease-in-out infinite;
+  filter: url(#sketch-rough);
+}
+
+.global-loader__brand {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.25;
+  letter-spacing: 0.04em;
+  color: var(--ds-ink);
+}
+
+.global-loader__hint {
+  margin: 0.85rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--ds-ink-soft);
+}
+
+.global-loader__pct {
+  margin: 1rem 0 0.65rem;
+  font-size: 1.65rem;
+  line-height: 1;
+  color: var(--ds-ink);
+}
+
+.global-loader__track {
+  position: relative;
+  margin-inline: auto;
+  height: 0.85rem;
+  width: 100%;
+  max-width: 14rem;
+  overflow: hidden;
+  border: var(--ds-border);
+  background: var(--ds-paper);
+}
+
+.global-loader__fill {
+  height: 100%;
+  background: color-mix(in srgb, var(--ds-accent) 72%, var(--ds-progress));
+  transition: width 0.2s ease-out;
+}
+
+.global-loader__done {
+  margin: 1.1rem 0 0.15rem;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  color: var(--ds-ink);
+  animation: global-loader-stamp 0.35s ease-out;
+}
+
+@keyframes global-loader-wiggle {
+  0%,
+  100% {
+    transform: rotate(-0.9deg) translateY(0);
+  }
+  50% {
+    transform: rotate(1.1deg) translateY(-2px);
+  }
+}
+
+@keyframes global-loader-stamp {
+  0% {
+    transform: scale(0.86) rotate(-4deg);
+    opacity: 0.4;
+  }
+  70% {
+    transform: scale(1.06) rotate(1deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .global-loader__card {
+    animation: none;
+  }
+
+  .global-loader__done {
+    animation: none;
+  }
+
+  .global-loader__fill {
+    transition: none;
+  }
+}
