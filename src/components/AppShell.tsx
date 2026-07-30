@@ -4,11 +4,11 @@ import { useCallback, useState } from "react";
 import { motion } from "framer-motion";
 import { KaihuaApp } from "@/components/KaihuaApp";
 import { GlobalLoader } from "@/components/ui/GlobalLoader";
-
-const paperTransition = {
-  duration: 0.65,
-  ease: [0.22, 1.15, 0.36, 1] as const,
-};
+import {
+  paperSlide,
+  paperTransition,
+  useMobileMotionProfile,
+} from "@/lib/paper-motion";
 
 /**
  * Outermost client shell — GlobalLoader covers the viewport until fonts +
@@ -18,6 +18,7 @@ const paperTransition = {
 export function AppShell() {
   const [showLoader, setShowLoader] = useState(true);
   const [showApp, setShowApp] = useState(false);
+  const mobileMotion = useMobileMotionProfile();
 
   const handleExitStart = useCallback(() => {
     setShowApp(true);
@@ -41,10 +42,10 @@ export function AppShell() {
       {showApp ? (
         <motion.div
           key="kaihua-app"
-          className="absolute inset-0 z-10 h-full w-full"
-          initial={{ x: "100%", scale: 0.98, opacity: 1 }}
-          animate={{ x: "0%", scale: 1, opacity: 1 }}
-          transition={paperTransition}
+          className="paper-slide-layer absolute inset-0 z-10 h-full w-full"
+          initial={paperSlide(mobileMotion, "100%")}
+          animate={paperSlide(mobileMotion, "0%")}
+          transition={paperTransition(mobileMotion)}
         >
           <KaihuaApp />
         </motion.div>

@@ -3,6 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ASSETS } from "@/lib/assets";
+import {
+  paperSlide,
+  paperTransition,
+  useMobileMotionProfile,
+} from "@/lib/paper-motion";
 
 /** Home desk decor only — tee / seals / poster assets load on demand after loader exits. */
 const CORE_IMAGE_URLS: string[] = [
@@ -19,11 +24,6 @@ const WEIGHT = {
   fonts: 0.22,
   assets: 0.7,
 } as const;
-
-const paperTransition = {
-  duration: 0.65,
-  ease: [0.22, 1.15, 0.36, 1] as const,
-};
 
 type GlobalLoaderProps = {
   /** Fired when the paper begins sliding left — mount the app to enter from right */
@@ -72,6 +72,7 @@ export function GlobalLoader({ onExitStart, onFinished }: GlobalLoaderProps) {
   const exitStartedRef = useRef(false);
   const finishedRef = useRef(false);
   const progressRef = useRef(0);
+  const mobileMotion = useMobileMotionProfile();
 
   const bump = (next: number) => {
     const clamped = Math.min(100, Math.max(progressRef.current, Math.round(next)));
@@ -148,18 +149,18 @@ export function GlobalLoader({ onExitStart, onFinished }: GlobalLoaderProps) {
       {visible ? (
         <motion.div
           key="global-loader"
-          className="global-loader safe-pad"
+          className="global-loader paper-slide-layer safe-pad"
           role="status"
           aria-live="polite"
           aria-busy={phase === "loading"}
-          initial={{ x: "0%", scale: 1, opacity: 1 }}
+          initial={paperSlide(mobileMotion, "0%")}
           animate={
             phase === "exit"
-              ? { x: "-100%", scale: 0.98, opacity: 1 }
-              : { x: "0%", scale: 1, opacity: 1 }
+              ? paperSlide(mobileMotion, "-100%")
+              : paperSlide(mobileMotion, "0%")
           }
-          exit={{ x: "-100%", scale: 0.98, opacity: 1 }}
-          transition={paperTransition}
+          exit={paperSlide(mobileMotion, "-100%")}
+          transition={paperTransition(mobileMotion)}
           onAnimationComplete={() => {
             if (phase === "exit") setVisible(false);
           }}

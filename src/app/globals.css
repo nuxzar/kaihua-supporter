@@ -801,3 +801,48 @@ textarea {
     transition: none;
   }
 }
+
+/*
+ * Mobile / touch GPU — disable live SVG filters (feTurbulence) and infinite sway loops.
+ * Desktop (wide + fine pointer) keeps full sketch/grain; layout and colors unchanged.
+ */
+@media (max-width: 639px), ((hover: none) and (pointer: coarse)) {
+  /* pencil-grain overlays */
+  .workspace__grain,
+  .global-loader__grain,
+  .ds-card__grain,
+  .ds-window__grain {
+    filter: none;
+  }
+
+  /* sketch-rough / sketch-shadow displacement filters */
+  .sketch-stroke,
+  .sketch-shadow,
+  .ds-window,
+  .ds-card,
+  .ds-btn,
+  .ds-input,
+  .ds-actionbar__stroke,
+  .home-sticker-cta,
+  .home-oiiii-chip__stroke,
+  .global-loader__card {
+    filter: none;
+  }
+
+  /* infinite transform loops force filter subtree repaints */
+  .home-tee-wiggle,
+  .global-loader__card {
+    animation: none;
+    will-change: auto;
+  }
+
+  /* Loader → Home: avoid eager will-change on full-viewport slide layers */
+  .global-loader {
+    will-change: auto;
+  }
+
+  /* translate-only slides (see paper-motion.ts) — own compositor layer, no scale repaint */
+  .paper-slide-layer {
+    backface-visibility: hidden;
+  }
+}
