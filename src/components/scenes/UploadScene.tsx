@@ -88,8 +88,7 @@ export function UploadScene({
               e.preventDefault();
               handleFiles(e.dataTransfer.files);
             }}
-            className="photo-stage relative max-h-full max-w-full overflow-hidden transition hover:brightness-[0.98]"
-            style={{ aspectRatio: "3 / 4", height: "100%", width: "auto" }}
+            className="photo-stage relative overflow-hidden transition hover:brightness-[0.98]"
           >
             <PaperCard tone="board" grain fill>
               {previewUrl ? (

@@ -17,7 +17,6 @@ import {
   PHOTO_CROP_ZOOM_MIN,
   type PhotoCropTransform,
 } from "@/lib/photo-crop";
-import { PHOTO_STAGE_ASPECT } from "@/lib/photo-stage";
 
 type PhotoCropperProps = {
   imageUrl: string;
@@ -168,11 +167,6 @@ export function PhotoCropper({
         className={`photo-stage relative max-h-full max-w-full transition-[transform,box-shadow] duration-150 ${
           dragging ? "z-10 scale-[1.015] shadow-[5px_5px_0_0_rgba(29,29,29,0.28)]" : ""
         }`}
-        style={{
-          aspectRatio: PHOTO_STAGE_ASPECT,
-          height: "100%",
-          width: "auto",
-        }}
       >
         <Tape color="yellow" rotate={-10} className="-left-1 -top-1" width="3.6rem" />
         <Tape color="pink" rotate={12} className="-right-1 top-2" width="3.2rem" />

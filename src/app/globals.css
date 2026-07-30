@@ -23,6 +23,8 @@ body {
   height: 100dvh;
   min-height: -webkit-fill-available;
   overflow: hidden;
+  overflow-x: clip;
+  max-width: 100%;
   background-color: var(--ds-shell);
 }
 
@@ -146,7 +148,7 @@ textarea {
 }
 
 .scene-content--scroll {
-  overflow-x: hidden;
+  overflow-x: clip;
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
@@ -235,8 +237,27 @@ textarea {
   overflow: hidden;
 }
 
+.scene-container {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+  overflow-x: clip;
+  contain: paint;
+  isolation: isolate;
+}
+
 .photo-stage {
   aspect-ratio: 3 / 4;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
 }
 
 .workspace__top {
