@@ -38,4 +38,8 @@ export const ASSETS = {
     limited: "/assets/badges/limited.png",
     serialStar: "/assets/badges/serial-star.png",
   },
+  /** WeChat / Open Graph default preview — JPG 1200×630 */
+  share: {
+    wechatOg: "/assets/share/wechat-og.jpg",
+  },
 } as const;

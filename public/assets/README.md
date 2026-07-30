@@ -15,6 +15,7 @@ public/assets/
 ├── seals/         Certification seals
 ├── signatures/    Founder / hand signatures
 ├── badges/        LIMITED / serial accents
+├── share/         WeChat / Open Graph preview (wechat-og.jpg)
 └── fonts/         Optional brand fonts
 ```
 
@@ -35,6 +36,7 @@ public/assets/
 | `signatures/founder-signature.png` | Founder hand signature (小块 / 徐志胜) | Black ink, transparent bg |
 | `badges/limited.png` | LIMITED ribbon/badge | High contrast, short word |
 | `badges/serial-star.png` | Serial accent (optional) | Star / NO. mark |
+| `share/wechat-og.jpg` | WeChat / OG link preview | 1200×630 JPG, ≤ 1 MB |
 | `fonts/` | Optional brand fonts | App uses @fontsource today |
 
 ## Notes

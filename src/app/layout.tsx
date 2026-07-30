@@ -1,10 +1,33 @@
 import type { Metadata, Viewport } from "next";
 import { SketchFilters } from "@/components/ui/SketchFilters";
+import { SHARE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SUPPORT BLOOM CLUB",
-  description: "Join SUPPORT BLOOM CLUB — claim your bloom supporter seal.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SHARE.title,
+    template: `%s · ${SHARE.siteName}`,
+  },
+  description: SHARE.description,
+  applicationName: SHARE.siteName,
+  openGraph: {
+    type: "website",
+    locale: "zh_CN",
+    url: SITE_URL,
+    siteName: SHARE.siteName,
+    title: SHARE.title,
+    description: SHARE.description,
+    images: [
+      {
+        url: SHARE.ogImagePath,
+        width: SHARE.ogImageWidth,
+        height: SHARE.ogImageHeight,
+        alt: SHARE.ogImageAlt,
+        type: "image/jpeg",
+      },
+    ],
+  },
   icons: {
     icon: "/assets/seals/supporter-seal.png",
     apple: "/assets/seals/supporter-seal.png",
