@@ -622,11 +622,11 @@ textarea {
 .home-oiiii-bubble {
   position: absolute;
   bottom: calc(100% + 0.55rem);
-  left: -0.15rem;
+  left: 2.35rem;
   z-index: 30;
   display: flex;
   width: max-content;
-  max-width: min(15rem, 72vw);
+  max-width: min(15rem, calc(100vw - 3.5rem));
   flex-direction: column;
   gap: 0.35rem;
   padding: 0.65rem 0.75rem;
@@ -635,7 +635,7 @@ textarea {
   box-shadow: var(--ds-shadow);
   background: var(--ds-paper-soft);
   text-align: left;
-  rotate: 8deg;
+  rotate: 4deg;
   filter: url(#sketch-rough);
   pointer-events: none;
 }
@@ -644,7 +644,7 @@ textarea {
   content: "";
   position: absolute;
   bottom: -5px;
-  left: 0.85rem;
+  left: 0.55rem;
   width: 9px;
   height: 9px;
   border-right: var(--ds-border-width) solid var(--ds-ink);
