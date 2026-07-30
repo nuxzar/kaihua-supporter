@@ -27,12 +27,6 @@ export default function RootLayout({
     // suppressHydrationWarning: browser extensions (e.g. mobile_mode) inject
     // classes onto <html>/<body> before hydrate — not an app bug.
     <html lang="zh-CN" className="h-full overflow-hidden" suppressHydrationWarning>
-      <head>
-        {/* Local @font-face CSS (public/fonts) — not Next font loader */}
-        {/* eslint-disable-next-line @next/next/no-css-tags */}
-        <link rel="stylesheet" href="/fonts/fonts.css" />
-      </head>
-
       <body className="flex h-[100dvh] flex-col overflow-hidden" suppressHydrationWarning>
         <SketchFilters />
         {children}

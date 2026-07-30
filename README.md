@@ -16,7 +16,7 @@ npm run dev
 把透明 PNG 放到同名路径即可，**无需改代码**：
 
 ```
-public/assets/tee/kaihua-tee.png          # Tee 主体（透明底）
+public/assets/tee/kaihua-tee.webp         # Tee 主体（透明底）
 public/assets/logo/kaihua-logo.png
 public/assets/stickers/flower.png
 public/assets/stickers/dollar.png

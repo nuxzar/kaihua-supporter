@@ -4,16 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ASSETS } from "@/lib/assets";
 
-/** First-paint / home assets — real preload targets */
+/** Home desk decor only — tee / seals / poster assets load on demand after loader exits. */
 const CORE_IMAGE_URLS: string[] = [
-  ASSETS.tee,
-  ASSETS.logo,
   ASSETS.oiiiiStudio,
-  ASSETS.bloomClubMark,
-  ASSETS.seals.supporter,
   ASSETS.stickers.dollar,
   ASSETS.stickers.flower,
-  ASSETS.stickers.stamp,
 ];
 
 const ASSET_TIMEOUT_MS = 8000;

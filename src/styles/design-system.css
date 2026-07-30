@@ -48,7 +48,7 @@
     "Noto Sans SC", "Segoe UI", Tahoma, sans-serif;
   --ds-font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas,
     monospace;
-  /* UI type — YaHei (+ CJK system fallbacks). Local VT323/StarLovePencil faces stay in /fonts unused. */
+  /* UI type — YaHei (+ CJK system fallbacks). */
   --ds-font-en: var(--ds-font-yahei);
   --ds-font-cn: var(--ds-font-yahei), var(--ds-font-emoji);
   --ds-font-pixel: var(--ds-font-yahei), var(--ds-font-emoji);

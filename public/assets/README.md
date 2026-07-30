@@ -22,7 +22,7 @@ public/assets/
 
 | Path | Purpose | Spec hint |
 |------|---------|-----------|
-| `tee/kaihua-tee.png` | Transparent Tee sticker | PNG with alpha |
+| `tee/kaihua-tee.webp` | Transparent Tee sticker | WebP with alpha |
 | `logo/kaihua-logo.png` | Kaihua Club logo | Transparent PNG |
 | `logo/bloom-club-mark.png` | BLOOM CLUB archive header mark | Transparent PNG |
 | `stickers/flower.png` | Flower doodle | Small sticker |

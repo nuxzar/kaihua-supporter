@@ -1,8 +1,7 @@
 # Fonts
 
-Local brand faces live in `/public/fonts/` and are declared by `/public/fonts/fonts.css`:
+UI type uses system stacks via `design-system.css` (Microsoft YaHei / PingFang SC).
 
-- **VT323** — English pixel (`font-pixel`)
-- **StarLovePencil** (`ssfont.ttf`) — Chinese hand / display (`font-cn-pixel`, `font-hand`)
+Poster mono uses **IBM Plex Mono** from `@fontsource/ibm-plex-mono` (bundled in `globals.css`).
 
-Design tokens in `src/styles/design-system.css` (`--ds-font-*`) point at these families first.
+No local files under `/public/fonts/`.

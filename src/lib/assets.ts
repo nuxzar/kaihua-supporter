@@ -13,7 +13,7 @@
  *   fonts/        Optional brand fonts
  */
 export const ASSETS = {
-  tee: "/assets/tee/kaihua-tee.png",
+  tee: "/assets/tee/kaihua-tee.webp",
   logo: "/assets/logo/kaihua-logo.png",
   /** Oiiii studio mark — homepage decorative chip */
   oiiiiStudio: "/assets/logo/oiiii-studio.png",
