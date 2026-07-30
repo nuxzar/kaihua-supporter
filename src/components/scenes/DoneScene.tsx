@@ -12,6 +12,7 @@ import {
   pickShareCopy,
   XIAOHONGSHU_BLOOM_PROFILE_URL,
 } from "@/lib/constants";
+import { downloadPosterFile, savePosterToDevice } from "@/lib/save-poster";
 
 type DoneSceneProps = {
   posterUrl: string;
@@ -57,36 +58,6 @@ function AlternatingSubtitle({ lines }: { lines: string[] }) {
   );
 }
 
-function dataUrlToBlob(dataUrl: string): Blob {
-  const comma = dataUrl.indexOf(",");
-  if (comma < 0) throw new Error("Invalid data URL");
-  const header = dataUrl.slice(0, comma);
-  const data = dataUrl.slice(comma + 1);
-  const mime = /data:(.*?);/.exec(header)?.[1] || "image/png";
-  const binary = atob(data);
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i += 1) {
-    bytes[i] = binary.charCodeAt(i);
-  }
-  return new Blob([bytes], { type: mime });
-}
-
-/** Always force a file download — never open the share sheet. */
-function downloadPosterFile(dataUrl: string, filename: string) {
-  const blob = dataUrlToBlob(dataUrl);
-  const objectUrl = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = objectUrl;
-  link.download = filename;
-  link.rel = "noopener";
-  link.style.display = "none";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  // Revoke after the browser has a chance to start the download
-  window.setTimeout(() => URL.revokeObjectURL(objectUrl), 4000);
-}
-
 export function DoneScene({ posterUrl, serial }: DoneSceneProps) {
   const [drawer, setDrawer] = useState<Drawer>("none");
   const [saving, setSaving] = useState(false);
@@ -101,24 +72,26 @@ export function DoneScene({ posterUrl, serial }: DoneSceneProps) {
     [issueNo],
   );
 
-  const handleSavePoster = () => {
+  const handleSavePoster = async () => {
     if (saving || !posterUrl) return;
     setSaving(true);
+    const filename = `bloom-club-${issueNo}-${Date.now()}.png`;
     try {
-      downloadPosterFile(
-        posterUrl,
-        `bloom-club-${issueNo}-${Date.now()}.png`,
-      );
-    } catch {
-      // Last resort: navigate to the data URL (user can long-press / save)
-      const link = document.createElement("a");
-      link.href = posterUrl;
-      link.download = `bloom-club-${issueNo}.png`;
-      link.target = "_blank";
-      link.rel = "noopener";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
+      await savePosterToDevice(posterUrl, filename);
+    } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") return;
+      try {
+        downloadPosterFile(posterUrl, filename);
+      } catch {
+        const link = document.createElement("a");
+        link.href = posterUrl;
+        link.download = `bloom-club-${issueNo}.png`;
+        link.target = "_blank";
+        link.rel = "noopener";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }
     } finally {
       window.setTimeout(() => setSaving(false), 600);
     }
@@ -150,7 +123,7 @@ export function DoneScene({ posterUrl, serial }: DoneSceneProps) {
         {
           id: "save",
           label: saving ? "保存中…" : "保存证明",
-          onClick: handleSavePoster,
+          onClick: () => void handleSavePoster(),
           disabled: saving,
           variant: "secondary",
         },
@@ -198,7 +171,7 @@ export function DoneScene({ posterUrl, serial }: DoneSceneProps) {
           <HandButton
             variant="secondary"
             disabled={saving}
-            onClick={handleSavePoster}
+            onClick={() => void handleSavePoster()}
           >
             {saving ? "保存中…" : "先保存证明"}
           </HandButton>
