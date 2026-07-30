@@ -1,6 +1,8 @@
 import type { PosterTemplateId } from "@/types";
 
-const COUNTER_KEY = "bloom_issue_counter";
+/** Inclusive range for BLOOM-####### body (7 digits, no leading-zero collapse). */
+const ISSUE_MIN = 1;
+const ISSUE_MAX = 9_999_999;
 
 export const POSTER_YEAR = "2026";
 export const POSTER_MISSION = "SUPPORT BLOOM CLUB";
@@ -42,21 +44,17 @@ export function formatIssuedOn(date = new Date()): string {
   return `${y}.${m}.${d}`;
 }
 
+/** Random 7-digit issue body — client-only, no server counter. */
+export function randomIssueDigits(): number {
+  return Math.floor(Math.random() * (ISSUE_MAX - ISSUE_MIN + 1)) + ISSUE_MIN;
+}
+
 /**
- * Claim the next issue number (increments localStorage counter).
- * Call once when compose starts — not on crop/editor restart.
+ * Claim a random issue number (BLOOM-#######).
+ * Each visit/device draws independently — not globally unique, but no DB needed.
  */
 export function nextIssueNo(): string {
-  if (typeof window === "undefined") return formatIssueNo(1);
-  try {
-    const raw = window.localStorage.getItem(COUNTER_KEY);
-    const current = Math.max(0, parseInt(raw || "0", 10) || 0);
-    const next = current + 1;
-    window.localStorage.setItem(COUNTER_KEY, String(next));
-    return formatIssueNo(next);
-  } catch {
-    return formatIssueNo(1);
-  }
+  return formatIssueNo(randomIssueDigits());
 }
 
 /** Normalize any stored/legacy serial into BLOOM-#######. Never returns bare "BLOOM-". */

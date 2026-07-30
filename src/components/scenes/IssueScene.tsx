@@ -13,7 +13,7 @@ import {
   POSTER_YEAR,
   formatIssueNo,
   nextIssueNo,
-  parseIssueDigits,
+  randomIssueDigits,
 } from "@/lib/poster-storage";
 import type { PosterData, PosterMeta, TeeTransform } from "@/types";
 
@@ -136,14 +136,13 @@ export function IssueScene({
     const timers: number[] = [];
     const stopIfFailed = () => cancelled || composeFailedRef.current;
 
-    // Roll toward the locked sequential issue — never a separate random serial.
-    const target = parseIssueDigits(lockedIssueNo);
-    const start = Math.max(1, target - 96);
+    // Slot-style roll — flicker random digits, then lock to the claimed issue no.
+    const ROLL_TICKS = 18;
 
     queueMicrotask(() => {
       if (stopIfFailed()) return;
       setPhase("register");
-      setDisplaySerial(formatIssueNo(start));
+      setDisplaySerial(formatIssueNo(randomIssueDigits()));
       setEjectDone(false);
       setIssueEgg(pickIssueEasterEgg());
     });
@@ -154,17 +153,15 @@ export function IssueScene({
         if (stopIfFailed()) return;
         setPhase("serial");
 
-        // 2) Serial roll — climbs to the same BLOOM-####### used for compose
-        let n = start;
-        const step = Math.max(1, Math.ceil((target - start) / 16));
+        // 2) Serial roll — random ticks, lands on the same BLOOM-####### used for compose
+        let tick = 0;
         serialInterval = window.setInterval(() => {
           if (stopIfFailed()) {
             window.clearInterval(serialInterval);
             return;
           }
-          n = Math.min(target, n + step);
-          setDisplaySerial(formatIssueNo(n));
-          if (n >= target) {
+          tick += 1;
+          if (tick >= ROLL_TICKS) {
             window.clearInterval(serialInterval);
             setDisplaySerial(lockedIssueNo);
 
@@ -183,6 +180,8 @@ export function IssueScene({
                 );
               }, 3200),
             );
+          } else {
+            setDisplaySerial(formatIssueNo(randomIssueDigits()));
           }
         }, 80);
       }, 1100),
