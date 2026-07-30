@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { HandButton } from "@/components/ds/HandButton";
 import { PaperCard } from "@/components/ds/PaperCard";
 import { SceneContent } from "@/components/scenes/SceneContent";
@@ -12,9 +13,23 @@ type HomeSceneProps = {
 
 /**
  * 开花支持计划总部 — desk HQ, not a tool splash.
- * Decor is static / non-interactive; only the sticker CTA advances.
+ * Oiiii chip opens a credit bubble; sticker CTA advances.
  */
 export function HomeScene({ onNext }: HomeSceneProps) {
+  const [showOiiiiBubble, setShowOiiiiBubble] = useState(false);
+  const oiiiiChipRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!showOiiiiBubble) return;
+    const onPointerDown = (event: PointerEvent) => {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (oiiiiChipRef.current?.contains(target)) return;
+      setShowOiiiiBubble(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [showOiiiiBubble]);
   useWorkshopChrome(
     {
       backLabel: null,
@@ -89,11 +104,28 @@ export function HomeScene({ onNext }: HomeSceneProps) {
               (matching right spacer = chip width).
             */}
             <div className="home-action-row mt-4 grid w-[calc(100%+1.5rem)] max-w-none shrink-0 -mx-3 grid-cols-[2.5rem_1fr_2.5rem] items-center px-1 sm:mt-6 sm:w-[calc(100%+2rem)] sm:-mx-4 sm:grid-cols-[2.75rem_1fr_2.75rem]">
-              <span
-                aria-hidden
+              <button
+                ref={oiiiiChipRef}
+                type="button"
                 className="home-oiiii-chip justify-self-start"
+                aria-expanded={showOiiiiBubble}
+                aria-label="Oiiii studio"
+                onClick={() => setShowOiiiiBubble((open) => !open)}
               >
-                <span className="home-oiiii-chip__stroke" />
+                {showOiiiiBubble ? (
+                  <span className="home-oiiii-bubble" role="tooltip">
+                    <span className="home-oiiii-bubble__line font-cn-pixel">
+                      SUPPORT BLOOM CLUB
+                    </span>
+                    <span className="home-oiiii-bubble__line font-hand">
+                      送给关注开花俱乐部的朋友们
+                    </span>
+                    <span className="home-oiiii-bubble__line home-oiiii-bubble__line--by font-hand">
+                      by Oiiii studio
+                    </span>
+                  </span>
+                ) : null}
+                <span className="home-oiiii-chip__stroke" aria-hidden />
                 <span className="home-oiiii-chip__face">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -103,7 +135,7 @@ export function HomeScene({ onNext }: HomeSceneProps) {
                     draggable={false}
                   />
                 </span>
-              </span>
+              </button>
               <div className="flex min-w-0 justify-center">
                 <HandButton
                   onClick={onNext}
