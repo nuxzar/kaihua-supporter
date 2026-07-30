@@ -155,14 +155,13 @@ export function DoneScene({ posterUrl, serial }: DoneSceneProps) {
       </SceneContent>
 
       <SheetDrawer open={drawer === "share"} title="晒出我的身份" onClose={() => setDrawer("none")}>
-        <div className="space-y-3 font-hand text-base leading-relaxed text-ink">
-          <p>证明到手了，晒出去才算真正加入。</p>
-          <p className="text-ink-soft">
-            保存证明，分享到朋友圈、小红书之类地方去！
+        <p className="font-hand text-base leading-relaxed text-ink">
+          证明到手了，晒出去才算真正加入。保存证明，分享到朋友圈、小红书之类地方去！
+        </p>
+        <PaperCard plain className="share-copy-field ds-pad-sm mt-4 !bg-white">
+          <p className="font-hand text-base leading-relaxed whitespace-pre-line text-ink">
+            {shareCopy}
           </p>
-        </div>
-        <PaperCard tone="cream" className="ds-pad-sm mt-4">
-          <p className="font-hand text-base leading-relaxed whitespace-pre-line">{shareCopy}</p>
         </PaperCard>
         <div className="mt-4 flex flex-col ds-gap-sm">
           <HandButton onClick={() => void handleCopy()}>
